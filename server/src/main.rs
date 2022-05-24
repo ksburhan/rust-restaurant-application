@@ -1,14 +1,20 @@
 #![feature(proc_macro_hygiene, decl_macro)]
-
 #[macro_use]
 extern crate rocket;
-
-#[get("/")]
-fn index() -> &'static str {
-    "Hello, world!"
-}
+use server::{
+  order_controller::add_items,
+  order_controller::delete_item,
+  order_controller::get_all_table_items,
+  order_controller::get_table_item};
 
 #[launch]
 fn rocket() -> _ {
-    rocket::build().mount("/", routes![index])
+       rocket::build().mount(
+         "/api/v1", 
+         routes![
+          add_items,
+          delete_item,
+          get_all_table_items,
+          get_table_item
+           ])
 }
