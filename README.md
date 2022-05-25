@@ -36,6 +36,14 @@ cargo run -p client
 - serde_json: to deserialize and serialize
 - reqwest + tokio: for instancing a client to send HTTP requests to the server
 
+## Architecture
+
+- rocket routes defined in `order_controller.rs`
+- Service logic implemented in `order_service.rs`
+- Data stored in a Vector holding HashMaps
+    - Vector Index = Table Number
+    - HashMap contains `item_id` as Key and the `Item` Object as a value
+
 ## Current Issues
 - Due to considering the time limit and lack of rust knowledge, Items are not being removed once they finished cooking. E.g. the field `finished_at` of the struct `Item` has a timestamp smaller than the current time.
 
