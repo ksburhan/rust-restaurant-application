@@ -915,6 +915,7 @@ dependencies = [
  "rocket_codegen",
  "rocket_http",
  "serde",
+ "serde_json",
  "state",
  "tempfile",
  "time",
@@ -1028,6 +1029,7 @@ dependencies = [
 name = "server"
 version = "0.1.0"
 dependencies = [
+ "lazy_static",
  "rocket",
  "serde",
  "serde_json",

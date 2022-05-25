@@ -2,14 +2,18 @@
 #[macro_use]
 extern crate rocket;
 use server::{
-  order_controller::add_items,
-  order_controller::delete_item,
-  order_controller::get_all_table_items,
-  order_controller::get_table_item};
+  order_controller::{
+    add_items,
+    delete_item,
+    get_all_table_items,
+    get_table_item},
+  order_service::OrderService};
+
 
 #[launch]
 fn rocket() -> _ {
-       rocket::build().mount(
+       rocket::build()
+       .mount(
          "/api/v1", 
          routes![
           add_items,
