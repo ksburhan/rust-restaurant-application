@@ -29,12 +29,27 @@ impl OrderService{
         }
     }
 
+    //pub fn remove_finished_food(&self, table_id: i64, item_id: i64){
+    //    let target_table = &self.all_tables[table_id as usize];
+    //    let mut target_table_orders = target_table.lock().unwrap();
+    //    if let Some(_) = target_table_orders.order.remove(&item_id){
+    //    } else {
+    //    }
+    //}
     pub fn add_items(&self, table_id: i64, items: &Vec<String>) -> Result<Vec<Item>, String> {
         if &table_id >= &self.max_tables {
             return Err(String::from("Not a valid table_id!"))
         }
         let target_table = &self.all_tables[table_id as usize];
         let mut target_table_orders = target_table.lock().unwrap();
+
+        //for item in target_table_orders.order.iter() {
+        //    if item.1.finishes_at <= Utc::now().timestamp() {
+        //        let id = item.1.id.clone() as i64;
+        //        self.remove_finished_food(table_id, id);
+        //    }
+        //}
+
         if (target_table_orders.order.len() + items.len()) as i64 > self.max_items {
             return Err(String::from("Already too many items!"))
         }
@@ -47,7 +62,7 @@ impl OrderService{
                 id: (target_table_orders.order.len() + 1) as i64,
                 name: item.to_string(),
                 table_id: table_id,
-                finishes_at: Utc::now().timestamp() + rng.gen_range(5000..15000),
+                finishes_at: Utc::now().timestamp() + rng.gen_range(5..15),
             };
             added_items.push(i.clone());
             target_table_orders.order.insert(i.id, i.clone());
@@ -101,7 +116,7 @@ mod tests {
     Item {
       id: id,
       name: name.to_string(),
-      table_id: 0,
+      table_id: table_id,
       finishes_at,
     }
   }
