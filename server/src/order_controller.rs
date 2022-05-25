@@ -1,11 +1,11 @@
 use crate::{order_service::{OrderService}, item::Item};
+use lazy_static::lazy_static;
+
 
 use rocket::{
   {post, get, delete},
   serde::json::Json,
 };
-
-use lazy_static::lazy_static;
 
 lazy_static! {
     static ref ORDER_SERVICE: OrderService = OrderService::new(100, 500);
