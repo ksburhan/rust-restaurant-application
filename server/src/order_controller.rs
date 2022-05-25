@@ -8,7 +8,7 @@ use rocket::{
 };
 
 lazy_static! {
-    static ref ORDER_SERVICE: OrderService = OrderService::new(100, 500);
+    static ref ORDER_SERVICE: OrderService = OrderService::new(100, 50);
 }
 
 fn check_result1(result: Result<Vec<Item>, String>) -> Result<Json<Vec<Item>>, String> {

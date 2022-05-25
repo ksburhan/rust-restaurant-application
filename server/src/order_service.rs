@@ -47,9 +47,7 @@ impl OrderService{
                 id: (target_table_orders.order.len() + 1) as i64,
                 name: item.to_string(),
                 table_id: table_id,
-                starts_at: Utc::now().timestamp(),
                 finishes_at: Utc::now().timestamp() + rng.gen_range(5000..15000),
-                is_done: false,
             };
             added_items.push(i.clone());
             target_table_orders.order.insert(i.id, i.clone());
