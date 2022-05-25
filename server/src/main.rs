@@ -6,8 +6,7 @@ use server::{
     add_items,
     delete_item,
     get_all_table_items,
-    get_table_item},
-  order_service::OrderService};
+    get_table_item}};
 
 
 #[launch]

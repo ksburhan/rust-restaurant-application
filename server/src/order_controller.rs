@@ -1,4 +1,5 @@
 use crate::{order_service::{OrderService}, item::Item};
+
 use rocket::{
   {post, get, delete},
   serde::json::Json,
@@ -32,7 +33,7 @@ pub fn add_items(
   check_result1(ORDER_SERVICE.add_items(table_id, &items))
 }
 
-#[delete("/table/<table_id>/item/<item_id>")]
+#[delete("/table/<table_id>/items/<item_id>")]
 pub fn delete_item(
   table_id: i64,
   item_id: i64,
@@ -40,14 +41,14 @@ pub fn delete_item(
   check_result2(ORDER_SERVICE.delete_item(table_id, item_id))
 }
 
-#[get("/table/<table_id>/items")]
+#[get("/table/<table_id>")]
 pub fn get_all_table_items(
   table_id: i64,
 ) -> Result<Json<Vec<Item>>, String> {
   check_result1(ORDER_SERVICE.get_all_table_items(table_id))
 }
 
-#[get("/table/<table_id>/item/<item_id>")]
+#[get("/table/<table_id>/items/<item_id>")]
 pub fn get_table_item(
   table_id: i64,
   item_id: i64,

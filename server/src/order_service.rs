@@ -42,10 +42,9 @@ impl OrderService{
         let mut added_items = Vec::new();
         let mut rng = rand::thread_rng();
         
-        let mut idd = 1;
         for item in items {
             let i = Item{
-                id: idd,
+                id: (target_table_orders.order.len() + 1) as i64,
                 name: item.to_string(),
                 table_id: table_id,
                 starts_at: Utc::now().timestamp(),
@@ -54,7 +53,6 @@ impl OrderService{
             };
             added_items.push(i.clone());
             target_table_orders.order.insert(i.id, i.clone());
-            idd = idd +1;
         }
         Ok(added_items)
     }
@@ -75,19 +73,24 @@ impl OrderService{
     }
 
     pub fn get_all_table_items(&self, table_id: i64) -> Result<Vec<Item>, String> {
-        println!("item all table shown");
-        Ok(Vec::new())
+        if &table_id >= &self.max_tables {
+            return Err(String::from("Not a valid table_id!"))
+        }
+        let target_table = &self.all_tables[table_id as usize];
+        let target_table_orders = target_table.lock().unwrap();
+        Ok(target_table_orders.order.values().cloned().collect())
     }
 
     pub fn get_table_item(&self, table_id: i64, item_id: i64) -> Result<Vec<Item>, String>  {
-        println!("table item shown");
-        Ok(vec![Item{
-            id: item_id,
-            name: String::from("asd"),
-            table_id: table_id,
-            starts_at: 123,
-            finishes_at: 123,
-            is_done: true
-        }])
+        if &table_id >= &self.max_tables {
+            return Err(String::from("Not a valid table_id!"))
+        }
+        let target_table = &self.all_tables[table_id as usize];
+        let target_table_orders = target_table.lock().unwrap();
+        if let Some(i) = target_table_orders.order.get(&item_id){
+            Ok(vec![i.clone()])
+        } else {
+            Err(String::from("Item not found on table!"))
+        }
     }
 }
