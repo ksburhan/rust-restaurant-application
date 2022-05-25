@@ -92,3 +92,49 @@ impl OrderService{
         }
     }
 }
+
+#[cfg(test)]
+mod tests {
+  use super::*;
+
+  fn create_item(id: i64, name: &str, table_id: i64, finishes_at: i64) -> Item {
+    Item {
+      id: id,
+      name: name.to_string(),
+      table_id: 0,
+      finishes_at,
+    }
+  }
+
+  #[test]
+  fn test_add_item() {
+    let item1 = create_item(1, "Pizza", 0, 60);
+    let item2 = create_item(2, "Steak", 0, 60);
+    let item3 = create_item(3, "Burger", 0, 60);
+    let item4 = create_item(4, "Sushi", 0, 60);
+
+    let mut orders = Orders::new();
+    assert_eq!(0, orders.order.len());
+
+    for (i, x) in vec![item1, item2, item3, item4].iter().enumerate() {
+        orders.order.insert(i as i64, x.clone());
+      assert_eq!(i + 1, orders.order.len());
+    }
+  }
+
+  #[test]
+  fn test_get_item() {
+    let item1 = create_item(1, "Pizza", 0, 60);
+    let item2 = create_item(2, "Steak", 0, 60);
+    let item3 = create_item(3, "Burger", 0, 60);
+    let item4 = create_item(4, "Sushi", 0, 60);
+    
+    let items = vec![item1, item2, item3, item4];
+
+    let mut orders = Orders::new();
+    for (i, x) in items.iter().enumerate() {
+        orders.order.insert(i as i64, x.clone());
+      assert_eq!(i + 1, orders.order.len());
+    }
+  }
+}
