@@ -25,6 +25,7 @@ cd [root]
 cargo run -p server
 ```
 ### Client
+Option `-- <sleep_duration>` can be added to change the duration the client waits between making new requests
 ```
 cd [root]
 cargo run -p client
@@ -55,6 +56,20 @@ cargo run -p client
 | Remove item | DELETE | /api/v1/table/[table_id]/items/[item_id] | table_id = i64, item_id = i64
 | Query all table items | GET | /api/v1/table/[table_id] | table_id = i64
 | Query item | GET | /api/v1/table/[table_id]/items/[item_id] | table_id = i64, item_id = i64
+
+## Runtime
+### Client
+The client binary runs in an endless loop. During one loop it:
+ - determines a random table number 
+ - adds a hard coded list of dishes to the table 
+ - queries all the content of the table
+ - picks a random `item_id`
+ - queries the `item_id` on the specified table
+ - removes the picked `item_id` on said table
+ - queries all the remaining items on the table
+
+### Server
+The server launches the rocket webserver and processes incoming requests. The requests are routed through the `order_controller`, which calls the correct function in the `order_service`.
 
 ## Output
 ### Client
